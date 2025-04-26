@@ -1,6 +1,7 @@
 
 document.addEventListener("DOMContentLoaded", function () {
     // Mobile Menu Toggle
+    AOS.init();
     const menuBtn = document.getElementById("menuBtn");
     const mobileMenu = document.getElementById("mobileMenu");
 

@@ -4,6 +4,12 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Primary Meta Tags -->
+    <meta name="title" content="Nishand M S | Frontend UI Developer">
+    <meta name="description"
+        content="Nishand M S is a Frontend UI Developer crafting beautiful, responsive, and user-friendly web experiences using Angular, JavaScript, TypeScript, Tailwind CSS, and Node.js.">
+    <!-- Favicon -->
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
     <title>Nishand M S - Frontend Developer</title>
     <script src="./libs/js/tailwind.min.js"></script>
     <script>
@@ -27,11 +33,29 @@
             },
         };
     </script>
+    <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "Person",
+          "name": "Nishand M S",
+          "url": "https://nishandms.github.io/Portfolio/",
+          "sameAs": [
+            "https://github.com/nishandms",
+            "https://www.linkedin.com/in/nishand-m-s-116b5a1b2?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
+          ],
+          "jobTitle": "Frontend UI Developer",
+          "worksFor": {
+            "@type": "Organization",
+          },
+          "description": "Frontend UI Developer crafting beautiful, responsive, and user-friendly web experiences with Angular, JavaScript, Tailwind CSS, TypeScript, and Node.js."
+        }
+        </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
         rel="stylesheet" />
+    <link href="./libs/css/aos/aos.css" rel="stylesheet"/>
     <link href="./libs/css/remixicons/remixicon.css" rel="stylesheet" />
     <link href="style.css" rel="stylesheet">
 </head>
@@ -41,7 +65,6 @@
     <header class="fixed w-full bg-white shadow-sm z-50">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <a href="#" class="text-2xl font-['Pacifico'] text-gray-800">Nishand M S</a>
-
             <!-- Desktop Navigation -->
             <nav class="hidden md:flex space-x-8">
                 <a href="#home" class="text-gray-600 hover:text-primary font-medium transition">Home</a>
@@ -50,18 +73,7 @@
                 <a href="#skills" class="text-gray-600 hover:text-primary font-medium transition">Skills</a>
                 <a href="#contact" class="text-gray-600 hover:text-primary font-medium transition">Contact</a>
             </nav>
-
-            <!-- <div class="flex items-center space-x-4">
-                <label class="switch">
-                    <input type="checkbox" id="themeToggle" />
-                    <span class="slider"></span>
-                </label>
-                <button id="menuBtn" class="md:hidden w-10 h-10 flex items-center justify-center text-gray-700">
-                    <i class="ri-menu-line ri-lg"></i>
-                </button>
-            </div> -->
         </div>
-
         <!-- Mobile Navigation -->
         <div id="mobileMenu" class="hidden md:hidden bg-white px-6 py-4 shadow-md">
             <nav class="flex flex-col space-y-4">
@@ -79,7 +91,7 @@
         style="background-size: cover; background-position: center;background-color:#f9fafb;">
         <div class="container mx-auto px-6">
             <div class="flex flex-col md:flex-row items-center">
-                <div class="md:w-1/2 mb-10 md:mb-0">
+                <div data-aos="fade-up" data-aos-duration="800" class="md:w-1/2 mb-10 md:mb-0">
                     <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4">
                         Hi, I'm <span class="text-primary">Nishand M S</span>
                     </h1>
@@ -113,7 +125,7 @@
                         </a>
                     </div>
                 </div>
-                <div class="md:w-1/2 flex justify-center">
+                <div data-aos="fade-up" data-aos-duration="800" class="md:w-1/2 flex justify-center">
                     <img src="images/nishandms.jpg" alt="Nishand M S"
                         class="w-64 h-64 object-cover rounded-full border-4 border-white shadow-lg" />
                 </div>
@@ -128,11 +140,13 @@
                 About Me
             </h2>
             <div class="flex flex-col md:flex-row items-center gap-12">
-                <div class="md:w-2/5">
+                <div data-aos="fade-up" data-aos-duration="800"
+                data-aos-anchor-placement="center-bottom" class="md:w-2/5">
                     <img src="images/pc.jpg" alt="Nishand Working"
                         class="w-full h-auto rounded-lg shadow-lg object-cover" />
                 </div>
-                <div class="md:w-3/5">
+                <div data-aos="fade-up" data-aos-duration="800"
+                data-aos-anchor-placement="center-bottom" class="md:w-3/5">
                     <h3 class="text-2xl font-semibold text-gray-800 mb-4">
                         Frontend UI Developer with 5+ Years Experience
                     </h3>
@@ -195,7 +209,6 @@
                     <div class="flex flex-wrap gap-3">
                         <span class="px-3 py-1 bg-gray-200 text-gray-700 rounded-full text-sm">JavaScript</span>
                         <span class="px-3 py-1 bg-gray-200 text-gray-700 rounded-full text-sm">Angular</span>
-                        <!-- <span class="px-3 py-1 bg-gray-200 text-gray-700 rounded-full text-sm">Vue.js</span> -->
                         <span class="px-3 py-1 bg-gray-200 text-gray-700 rounded-full text-sm">NodeJS</span>
                         <span class="px-3 py-1 bg-gray-200 text-gray-700 rounded-full text-sm">Tailwind CSS</span>
                         <span class="px-3 py-1 bg-gray-200 text-gray-700 rounded-full text-sm">TypeScript</span>
@@ -229,11 +242,6 @@
                         data-filter="react">
                         Angular
                     </button>
-                    <!-- <button
-                        class="filter-btn px-4 py-2 text-sm font-medium rounded-full whitespace-nowrap text-gray-600 hover:text-gray-800"
-                        data-filter="vue">
-                        Vue.js
-                    </button> -->
                     <button
                         class="filter-btn px-4 py-2 text-sm font-medium rounded-full whitespace-nowrap text-gray-600 hover:text-gray-800"
                         data-filter="javascript">
@@ -247,7 +255,7 @@
                 <!-- Project 1 -->
                 <div class="project-card group" data-category="react">
                     <div class="relative overflow-hidden rounded-lg shadow-md">
-                        <img src="./images/idam-homestay.jpg" alt="E-commerce Platform"
+                        <img src="./images/projects/idam-homestay.jpg" alt="E-commerce Platform"
                             class="w-full h-64 object-cover object-top transition duration-300" />
                         <div
                             class="project-overlay absolute inset-0 bg-gradient-to-t from-black/80 to-black/30 opacity-0 transition duration-300 flex flex-col justify-end p-6">
@@ -458,100 +466,81 @@
             </p>
             <div class="max-w-7xl mx-auto">
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
-                    <div
+                    <div data-aos="fade-up" data-aos-duration="800"
                         class="flex items-center justify-center gap-4 bg-white p-4 rounded-lg shadow hover:shadow-md transition">
-                        <img src="https://img.icons8.com/?size=100&id=6SWtW8hxZWSo&format=png&color=000000"
-                            alt="Firebase" class="h-10 w-10 object-contain">
+                        <img src="./images/skill/angular.png" alt="Firebase" class="h-10 w-10 object-contain">
                         <span class="font-semibold">Angular</span>
                     </div>
 
-                    <div
+                    <div data-aos="fade-up" data-aos-duration="800"
                         class="flex items-center justify-center gap-4 bg-white p-4 rounded-lg shadow hover:shadow-md transition">
-                        <img src="https://img.icons8.com/color/48/typescript.png" alt="TypeScript"
-                            class="h-10 w-10 object-contain">
+                        <img src="./images/skill/typescript.png" alt="TypeScript" class="h-10 w-10 object-contain">
                         <span class="font-semibold">TypeScript</span>
                     </div>
 
-                    <div
+                    <div data-aos="fade-up" data-aos-duration="800"
                         class="flex items-center gap-4 justify-center bg-white p-4 rounded-lg shadow hover:shadow-md transition">
-                        <img src="https://img.icons8.com/ios/50/express-js.png" alt="Express"
-                            class="h-10 w-10 object-contain">
+                        <img src="./images/skill/express-js.png" alt="Express" class="h-10 w-10 object-contain">
                         <span class="font-semibold">Express</span>
                     </div>
 
-                    <div
+                    <div data-aos="fade-up" data-aos-duration="800"
                         class="flex items-center gap-4 justify-center bg-white p-4 rounded-lg shadow hover:shadow-md transition">
-                        <img src="https://img.icons8.com/color/48/nodejs.png" alt="NodeJS"
-                            class="h-10 w-10 object-contain">
+                        <img src="./images/skill/nodejs.png" alt="NodeJS" class="h-10 w-10 object-contain">
                         <span class="font-semibold">NodeJS</span>
                     </div>
 
-                    <div
+                    <div data-aos="fade-up" data-aos-duration="800"
                         class="flex items-center gap-4 justify-center bg-white p-4 rounded-lg shadow hover:shadow-md transition">
-                        <img src="https://img.icons8.com/ios-filled/50/react-native.png" alt="React Native"
-                            class="h-10 w-10 object-contain">
+                        <img src="./images/skill/react-native.png" alt="React Native" class="h-10 w-10 object-contain">
                         <span class="font-semibold">React Native</span>
                     </div>
 
-                    <div
+                    <div data-aos="fade-up" data-aos-duration="800"
                         class="flex items-center justify-center gap-4 bg-white p-4 rounded-lg shadow hover:shadow-md transition">
-                        <img src="https://img.icons8.com/color/48/html-5.png" alt="HTML"
-                            class="h-10 w-10 object-contain">
+                        <img src="./images/skill/html-5.png" alt="HTML" class="h-10 w-10 object-contain">
                         <span class="font-semibold">HTML</span>
                     </div>
 
-                    <div
+                    <div data-aos="fade-up" data-aos-duration="800"
                         class="flex items-center justify-center gap-4 bg-white p-4 rounded-lg shadow hover:shadow-md transition">
-                        <img src="https://img.icons8.com/color/48/css3.png" alt="CSS" class="h-10 w-10 object-contain">
+                        <img src="./images/skill/css3.png" alt="CSS" class="h-10 w-10 object-contain">
                         <span class="font-semibold">CSS</span>
                     </div>
 
-                    <div
+                    <div data-aos="fade-up" data-aos-duration="800"
                         class="flex items-center justify-center gap-4 bg-white p-4 rounded-lg shadow hover:shadow-md transition">
-                        <img src="https://img.icons8.com/ios-filled/50/bootstrap.png" alt="Bootstrap"
-                            class="h-10 w-10 object-contain">
+                        <img src="./images/skill/bootstrap.png" alt="Bootstrap" class="h-10 w-10 object-contain">
                         <span class="font-semibold">Bootstrap</span>
                     </div>
 
-                    <div
+                    <div data-aos="fade-up" data-aos-duration="800"
                         class="flex items-center justify-center gap-4 bg-white p-4 rounded-lg shadow hover:shadow-md transition">
-                        <img src="https://img.icons8.com/color/48/javascript.png" alt="Javascript"
-                            class="h-10 w-10 object-contain">
+                        <img src="./images/skill/javascript.png" alt="Javascript" class="h-10 w-10 object-contain">
                         <span class="font-semibold">Javascript</span>
                     </div>
 
-                    <div
+                    <div data-aos="fade-up" data-aos-duration="800"
                         class="flex items-center justify-center gap-4 bg-white p-4 rounded-lg shadow hover:shadow-md transition">
-                        <img src="https://img.icons8.com/color/48/tailwindcss.png" alt="Tailwind CSS"
-                            class="h-10 w-10 object-contain">
+                        <img src="./images/skill/tailwindcss.png" alt="Tailwind CSS" class="h-10 w-10 object-contain">
                         <span class="font-semibold">Tailwind CSS</span>
                     </div>
 
-                    <div
+                    <div data-aos="fade-up" data-aos-duration="800"
                         class="flex items-center justify-center gap-4 bg-white p-4 rounded-lg shadow hover:shadow-md transition">
-                        <img src="https://img.icons8.com/color/48/react-native.png" alt="React"
-                            class="h-10 w-10 object-contain">
-                        <span class="font-semibold">React</span>
-                    </div>
-
-                    <div
-                        class="flex items-center justify-center gap-4 bg-white p-4 rounded-lg shadow hover:shadow-md transition">
-                        <img src="https://img.icons8.com/ios-filled/50/mysql-logo.png" alt="MySQL"
-                            class="h-10 w-10 object-contain">
+                        <img src="./images/skill/mysql-logo.png" alt="MySQL" class="h-10 w-10 object-contain">
                         <span class="font-semibold">MySQL</span>
                     </div>
 
-                    <div
+                    <div data-aos="fade-up" data-aos-duration="800"
                         class="flex items-center justify-center gap-4 bg-white p-4 rounded-lg shadow hover:shadow-md transition">
-                        <img src="https://img.icons8.com/color/48/mongodb.png" alt="MongoDB"
-                            class="h-10 w-10 object-contain">
+                        <img src="./images/skill/mongodb.png" alt="MongoDB" class="h-10 w-10 object-contain">
                         <span class="font-semibold">MongoDB</span>
                     </div>
 
-
-                    <div
+                    <div data-aos="fade-up" data-aos-duration="800"
                         class="flex items-center justify-center gap-4 bg-white p-4 rounded-lg shadow hover:shadow-md transition">
-                        <img src="https://img.icons8.com/color/48/git.png" alt="Git" class="h-10 w-10 object-contain">
+                        <img src="./images/skill/git.png" alt="Git" class="h-10 w-10 object-contain">
                         <span class="font-semibold">Git</span>
                     </div>
                 </div>
@@ -704,44 +693,6 @@
                         with modern technologies.
                     </p>
                 </div>
-
-                <div class="flex flex-col md:flex-row md:space-x-12 space-y-8 md:space-y-0">
-                    <div>
-                        <h4 class="text-lg font-semibold mb-4">Quick Links</h4>
-                        <ul class="space-y-2">
-                            <li>
-                                <a href="#home" class="text-gray-400 hover:text-white transition">Home</a>
-                            </li>
-                            <li>
-                                <a href="#about" class="text-gray-400 hover:text-white transition">About</a>
-                            </li>
-                            <li>
-                                <a href="#projects" class="text-gray-400 hover:text-white transition">Projects</a>
-                            </li>
-                            <li>
-                                <a href="#skills" class="text-gray-400 hover:text-white transition">Skills</a>
-                            </li>
-                            <li>
-                                <a href="#contact" class="text-gray-400 hover:text-white transition">Contact</a>
-                            </li>
-                        </ul>
-                    </div>
-
-                    <div>
-                        <h4 class="text-lg font-semibold mb-4">Stay Updated</h4>
-                        <p class="text-gray-400 mb-4">
-                            Subscribe to my newsletter for the latest updates.
-                        </p>
-                        <div class="flex">
-                            <input type="email" placeholder="Your email"
-                                class="px-4 py-2 w-full max-w-xs bg-gray-800 border-none text-white rounded-l focus:outline-none focus:ring-2 focus:ring-primary/30" />
-                            <button
-                                class="bg-primary text-white px-4 py-2 rounded-r font-medium hover:bg-blue-600 transition !rounded-button whitespace-nowrap">
-                                Subscribe
-                            </button>
-                        </div>
-                    </div>
-                </div>
             </div>
 
             <div class="border-t border-gray-800 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
@@ -774,8 +725,8 @@
     </button>
 
     <!-- Scripts -->
+     <script src="./libs/js/aos/aos.js"></script>
     <script src="script.js"></script>
-    
 </body>
 
 </html>
