@@ -136,4 +136,20 @@ document.addEventListener("DOMContentLoaded", function () {
         alert("Thank you for your message! I will get back to you soon.");
         contactForm.reset();
     });
+
+    // Mobile menu toggle
+    const menuButton = document.querySelector('.ri-menu-line');
+    const nav = document.querySelector('nav');
+    menuButton.addEventListener('click', function () {
+        nav.classList.toggle('custom-nav');
+        nav.classList.toggle('hidden');
+        nav.classList.toggle('flex');
+        nav.classList.toggle('flex-col');
+        nav.classList.toggle('absolute');
+        nav.classList.toggle('top-16');
+        nav.classList.toggle('right-4');
+        nav.classList.toggle('bg-white');
+        nav.classList.toggle('p-4');
+        nav.classList.toggle('shadow-lg');
+    });
 });

@@ -125,3 +125,12 @@ input:checked+.slider:before {
 .project-card:hover img {
     transform: scale(1.05);
 }
+
+.custom-nav {
+    width:100%!important;
+    right: 0!important;
+}
+
+.custom-nav a {
+    margin:10px 0px!important;
+}
