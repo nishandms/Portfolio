@@ -59,22 +59,22 @@ body {
   color: #ffffff;
 }
 
-/* Background Pattern Canvas Container */
+/* Background Pattern Canvas Container (Full Viewport including Header & Hero) */
 #three-network-container {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   pointer-events: none;
   z-index: 0;
-  opacity: 0.65;
+  opacity: 1;
   overflow: hidden;
 }
 
 #three-network-container canvas {
-  width: 100% !important;
-  height: 100% !important;
+  width: 100vw !important;
+  height: 100vh !important;
   display: block;
 }
 
@@ -136,38 +136,6 @@ p {
   transform: scale(1.03);
 }
 
-/* Status indicator ping */
-.status-dot-container {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.status-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 9999px;
-  background-color: #10b981;
-  display: inline-block;
-  position: relative;
-}
-
-.status-ping {
-  position: absolute;
-  width: 14px;
-  height: 14px;
-  border-radius: 9999px;
-  background-color: rgba(16, 185, 129, 0.4);
-  animation: ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
-}
-
-@keyframes ping {
-  75%, 100% {
-    transform: scale(2);
-    opacity: 0;
-  }
-}
 
 /* Buttons */
 .btn-primary {
@@ -292,9 +260,9 @@ p {
 
 /* Nav Blur */
 .nav-backdrop {
-  background: rgba(9, 9, 11, 0.85);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(9, 9, 11, 0.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--border-subtle);
 }
 

@@ -7,7 +7,9 @@
     <title>Nishand M S — Frontend UI Developer</title>
     <meta name="description"
         content="Nishand M S is a Frontend UI Developer with 5+ years of experience building accessible, performant web applications and design systems with Angular, TypeScript, and modern CSS.">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
     <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -55,6 +57,9 @@
 
 <body class="bg-[#09090b] text-[#fafafa] antialiased">
 
+    <!-- Interactive Background Pattern Animation (Full screen including Header & Hero) -->
+    <div id="three-network-container" aria-hidden="true"></div>
+
     <!-- Toast Notification -->
     <div id="toast" role="status">
         <i class="ri-check-line text-emerald-400"></i>
@@ -71,7 +76,7 @@
         <div class="container-narrow flex items-center justify-between h-16">
             <!-- Brand -->
             <a href="#top" class="flex items-center gap-2.5 text-white font-medium text-sm tracking-tight hover:opacity-80 transition-opacity">
-                <span>Nishand M S</span>
+                <img src="images/logo.png" alt="Nishand M S Logo" class="h-8 w-auto object-contain">
                 <span class="text-xs text-zinc-500 font-mono hidden sm:inline">/ UI Developer</span>
             </a>
 
@@ -109,26 +114,14 @@
     </nav>
 
     <!-- Main Content -->
-    <main id="top" class="pt-32 pb-24">
+    <main id="top" class="relative z-10 pt-16 pb-24">
         <div class="container-narrow space-y-28">
 
             <!-- Hero Section -->
-            <section class="relative space-y-6 pt-6 pb-6 overflow-hidden rounded-2xl">
-                <!-- Minimal Background Pattern Animation -->
-                <div id="three-network-container" class="absolute inset-0 pointer-events-none z-0" style="mask-image: radial-gradient(ellipse at 50% 45%, black 40%, transparent 85%); -webkit-mask-image: radial-gradient(ellipse at 50% 45%, black 40%, transparent 85%);"></div>
-
+            <section class="min-h-[calc(100vh-4rem)] flex flex-col justify-center py-12">
                 <div class="relative z-10 space-y-6" data-aos="fade-up" data-aos-duration="700">
-                    <!-- Status -->
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-xs text-zinc-300 font-medium">
-                        <span class="status-dot-container">
-                            <span class="status-ping"></span>
-                            <span class="status-dot"></span>
-                        </span>
-                        <span>Available for Frontend Roles & Select Freelance</span>
-                    </div>
-
                     <!-- Intro Heading -->
-                    <h1 class="text-3xl sm:text-5xl font-semibold tracking-tight text-white max-w-2xl leading-[1.2]" data-aos="fade-up" data-aos-delay="100">
+                    <h1 class="text-3xl sm:text-5xl font-semibold tracking-tight text-white max-w-2xl leading-[1.2]">
                         Frontend UI developer building clean, accessible web applications.
                     </h1>
 
@@ -497,7 +490,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="border-t border-zinc-800/80 py-8 text-xs text-zinc-500 font-mono">
+    <footer class="relative z-10 border-t border-zinc-800/80 py-8 text-xs text-zinc-500 font-mono">
         <div class="container-narrow flex flex-col sm:flex-row items-center justify-between gap-4">
             <div>
                 © 2026 Nishand M S. Built with care.

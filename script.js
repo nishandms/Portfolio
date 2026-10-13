@@ -102,7 +102,7 @@ function initAOS() {
   }
 }
 
-// Minimal Background Pattern Animation (Three.js with 2D Canvas Fallback)
+// Background Pattern Animation Engine (Three.js with 2D Canvas Fallback)
 function initBackgroundPattern() {
   const container = document.getElementById('three-network-container');
   if (!container) return;
@@ -119,15 +119,19 @@ function initThreeJSPattern(container) {
 
   const scene = new THREE.Scene();
   scene.fog = new THREE.Fog(0x09090b, 300, 1100);
-  const camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 1, 1500);
+
+  const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 1500);
+  camera.position.z = 700;
 
   const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  renderer.setSize(container.clientWidth, container.clientHeight);
+  renderer.setSize(window.innerWidth, window.innerHeight);
   container.appendChild(renderer.domElement);
 
   const particleCount = 140;
-  const r = 1000;
+  const boundX = 1200;
+  const boundY = 800;
+  const boundZ = 500;
   const maxDistance = 150;
 
   const particles = new THREE.BufferGeometry();
@@ -135,9 +139,9 @@ function initThreeJSPattern(container) {
   const particleVelocities = [];
 
   for (let i = 0; i < particleCount; i++) {
-    particlePositions[i * 3] = (Math.random() - 0.5) * r;
-    particlePositions[i * 3 + 1] = (Math.random() - 0.5) * r;
-    particlePositions[i * 3 + 2] = (Math.random() - 0.5) * r;
+    particlePositions[i * 3] = (Math.random() - 0.5) * boundX;
+    particlePositions[i * 3 + 1] = (Math.random() - 0.5) * boundY;
+    particlePositions[i * 3 + 2] = (Math.random() - 0.5) * boundZ;
 
     particleVelocities.push({
       x: (Math.random() - 0.5) * 0.18,
@@ -179,12 +183,10 @@ function initThreeJSPattern(container) {
 
   let mouseX = 0, mouseY = 0;
   let targetX = 0, targetY = 0;
-  const windowHalfX = window.innerWidth / 2;
-  const windowHalfY = window.innerHeight / 2;
 
   window.addEventListener('mousemove', (event) => {
-    mouseX = (event.clientX - windowHalfX) * 0.04;
-    mouseY = (event.clientY - windowHalfY) * 0.04;
+    mouseX = (event.clientX - window.innerWidth / 2) * 0.04;
+    mouseY = (event.clientY - window.innerHeight / 2) * 0.04;
   });
 
   function animate() {
@@ -194,23 +196,27 @@ function initThreeJSPattern(container) {
     targetY = mouseY * 1.8;
     camera.position.x += (targetX - camera.position.x) * 0.02;
     camera.position.y += (-targetY - camera.position.y) * 0.02;
-    camera.lookAt(scene.position);
+    camera.lookAt(0, 0, 0);
 
     let vertexpos = 0;
     let colorpos = 0;
     let numConnected = 0;
+
+    const hX = boundX / 2;
+    const hY = boundY / 2;
+    const hZ = boundZ / 2;
 
     for (let i = 0; i < particleCount; i++) {
       particlePositions[i * 3] += particleVelocities[i].x;
       particlePositions[i * 3 + 1] += particleVelocities[i].y;
       particlePositions[i * 3 + 2] += particleVelocities[i].z;
 
-      if (particlePositions[i * 3] > r / 2) particlePositions[i * 3] = -r / 2;
-      if (particlePositions[i * 3] < -r / 2) particlePositions[i * 3] = r / 2;
-      if (particlePositions[i * 3 + 1] > r / 2) particlePositions[i * 3 + 1] = -r / 2;
-      if (particlePositions[i * 3 + 1] < -r / 2) particlePositions[i * 3 + 1] = r / 2;
-      if (particlePositions[i * 3 + 2] > r / 2) particlePositions[i * 3 + 2] = -r / 2;
-      if (particlePositions[i * 3 + 2] < -r / 2) particlePositions[i * 3 + 2] = r / 2;
+      if (particlePositions[i * 3] > hX) particlePositions[i * 3] = -hX;
+      if (particlePositions[i * 3] < -hX) particlePositions[i * 3] = hX;
+      if (particlePositions[i * 3 + 1] > hY) particlePositions[i * 3 + 1] = -hY;
+      if (particlePositions[i * 3 + 1] < -hY) particlePositions[i * 3 + 1] = hY;
+      if (particlePositions[i * 3 + 2] > hZ) particlePositions[i * 3 + 2] = -hZ;
+      if (particlePositions[i * 3 + 2] < -hZ) particlePositions[i * 3 + 2] = hZ;
 
       for (let j = i + 1; j < particleCount; j++) {
         const dx = particlePositions[i * 3] - particlePositions[j * 3];
@@ -246,10 +252,10 @@ function initThreeJSPattern(container) {
   animate();
 
   window.addEventListener('resize', () => {
-    if (container && renderer) {
-      camera.aspect = container.clientWidth / container.clientHeight;
+    if (renderer) {
+      camera.aspect = window.innerWidth / window.innerHeight;
       camera.updateProjectionMatrix();
-      renderer.setSize(container.clientWidth, container.clientHeight);
+      renderer.setSize(window.innerWidth, window.innerHeight);
     }
   });
 }
@@ -262,8 +268,8 @@ function initCanvas2DPattern(container) {
   let width, height;
 
   function resize() {
-    width = canvas.width = container.clientWidth;
-    height = canvas.height = container.clientHeight;
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
   }
   resize();
   window.addEventListener('resize', resize);
@@ -282,9 +288,8 @@ function initCanvas2DPattern(container) {
 
   let mouseX = -1000, mouseY = -1000;
   window.addEventListener('mousemove', (e) => {
-    const rect = canvas.getBoundingClientRect();
-    mouseX = e.clientX - rect.left;
-    mouseY = e.clientY - rect.top;
+    mouseX = e.clientX;
+    mouseY = e.clientY;
   });
 
   function draw() {
