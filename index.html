@@ -4,368 +4,515 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nishand M S | Senior Software Engineer</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,700;1,300&display=swap"
-        rel="stylesheet">
+    <title>Nishand M S — Frontend UI Developer</title>
+    <meta name="description"
+        content="Nishand M S is a Frontend UI Developer with 5+ years of experience building accessible, performant web applications and design systems with Angular, TypeScript, and modern CSS.">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <!-- Local Remix Icons -->
+    <link rel="stylesheet" href="./libs/css/remixicons/remixicon.css">
+
+    <!-- Local AOS Animations Stylesheet -->
+    <link rel="stylesheet" href="./libs/css/aos/aos.css">
+
+    <!-- Three.js Library for Minimal Background Pattern Animation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- Tailwind (Local with CDN fallback) -->
+    <script src="./libs/js/tailwind.min.js"></script>
+    <script>
+        if (typeof tailwind === 'undefined') {
+            document.write('<script src="https://cdn.tailwindcss.com"><\/script>');
+        }
+    </script>
+    <script>
+        window.tailwind = window.tailwind || {};
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        subtle: '#121215',
+                        borderSubtle: '#27272a',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        };
+    </script>
+
+    <!-- Custom Styles -->
     <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
 </head>
 
-<body class="font-sans theme-dark bg-dev-bg text-dev-text transition-colors duration-500 overflow-x-hidden" id="body">
+<body class="bg-[#09090b] text-[#fafafa] antialiased">
 
-    <!-- Global Navigation - Glassmorphism -->
-    <nav class="fixed w-full z-50 transition-all duration-300 bg-dev-bg/80 backdrop-blur-lg border-b border-white/5"
-        id="navbar">
-        <div class="max-w-6xl mx-auto px-6 sm:px-8">
-            <div class="flex justify-between h-20 items-center">
-                <!-- Logo -->
-                <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="switchView('dev')">
-                    <span class="text-xl font-semibold tracking-tight" id="nav-logo">Nishand.</span>
-                </div>
+    <!-- Toast Notification -->
+    <div id="toast" role="status">
+        <i class="ri-check-line text-emerald-400"></i>
+        <span id="toast-text">Action completed</span>
+    </div>
 
-                <!-- Desktop Menu -->
-                <div class="hidden md:flex space-x-8 items-center" id="nav-links">
-                    <!-- Nav links injected by JS based on view -->
-                </div>
+    <!-- Back to Top Button -->
+    <button id="backToTop" aria-label="Back to top" title="Back to top">
+        <i class="ri-arrow-up-line text-base"></i>
+    </button>
 
-                <!-- Mobile Menu Button -->
-                <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-btn" class="focus:outline-none transition-colors">
-                        <svg class="h-6 w-6 text-current" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path id="menu-icon" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-                                d="M4 6h16M4 12h16M4 18h16" />
-                        </svg>
-                    </button>
-                </div>
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 w-full z-50 nav-backdrop">
+        <div class="container-narrow flex items-center justify-between h-16">
+            <!-- Brand -->
+            <a href="#top" class="flex items-center gap-2.5 text-white font-medium text-sm tracking-tight hover:opacity-80 transition-opacity">
+                <span>Nishand M S</span>
+                <span class="text-xs text-zinc-500 font-mono hidden sm:inline">/ UI Developer</span>
+            </a>
+
+            <!-- Desktop Links -->
+            <div class="hidden md:flex items-center gap-6 text-xs text-zinc-400 font-medium">
+                <a href="#work" class="hover-link">Work</a>
+                <a href="#services" class="hover-link">Freelance</a>
+                <a href="#stack" class="hover-link">Stack</a>
+                <a href="#about" class="hover-link">About</a>
+                <a href="#contact" class="hover-link">Contact</a>
+            </div>
+
+            <!-- Header Action -->
+            <div class="flex items-center gap-3">
+                <button onclick="copyEmail()" class="text-xs font-mono px-3 py-1.5 rounded-md bg-zinc-900 border border-zinc-800 text-zinc-300 hover:text-white hover:border-zinc-700 transition-all flex items-center gap-1.5" title="Copy email address">
+                    <i class="ri-file-copy-line text-zinc-500"></i>
+                    <span>Email</span>
+                </button>
+
+                <!-- Mobile Toggle -->
+                <button id="mobile-nav-toggle" class="md:hidden p-1.5 text-zinc-400 hover:text-white" aria-label="Toggle Navigation">
+                    <i class="ri-menu-line text-lg"></i>
+                </button>
             </div>
         </div>
 
         <!-- Mobile Menu -->
-        <div id="mobile-menu"
-            class="hidden md:hidden absolute w-full bg-dev-bg/95 backdrop-blur-xl border-b border-white/10 shadow-2xl"
-            style="top: 80px;">
-            <div class="px-4 pt-2 pb-6 space-y-2 flex flex-col items-center">
-                <button onclick="switchView('dev')"
-                    class="mobile-nav-link block w-full text-center py-4 text-sm font-medium tracking-wide uppercase">Software
-                    Engineering</button>
-                <button onclick="switchView('photo')"
-                    class="mobile-nav-link block w-full text-center py-4 text-sm font-medium tracking-wide uppercase">Photography</button>
-            </div>
+        <div id="mobile-nav-menu" class="hidden md:hidden border-t border-zinc-800 bg-[#09090b] px-6 py-4 space-y-3 text-sm">
+            <a href="#work" class="mobile-link block text-zinc-300 hover:text-white py-1">Work</a>
+            <a href="#services" class="mobile-link block text-zinc-300 hover:text-white py-1">Freelance</a>
+            <a href="#stack" class="mobile-link block text-zinc-300 hover:text-white py-1">Stack</a>
+            <a href="#about" class="mobile-link block text-zinc-300 hover:text-white py-1">About</a>
+            <a href="#contact" class="mobile-link block text-zinc-300 hover:text-white py-1">Contact</a>
         </div>
     </nav>
 
-    <!-- ================= DEVELOPER VIEW (SENIOR) ================= -->
-    <div id="view-dev" class="view-section active min-h-screen">
+    <!-- Main Content -->
+    <main id="top" class="pt-32 pb-24">
+        <div class="container-narrow space-y-28">
 
-        <!-- Senior Dev Hero -->
-        <header class="relative pt-48 pb-24 px-6 sm:px-8 max-w-6xl mx-auto min-h-[75vh] flex flex-col justify-center">
+            <!-- Hero Section -->
+            <section class="relative space-y-6 pt-6 pb-6 overflow-hidden rounded-2xl">
+                <!-- Minimal Background Pattern Animation -->
+                <div id="three-network-container" class="absolute inset-0 pointer-events-none z-0" style="mask-image: radial-gradient(ellipse at 50% 45%, black 40%, transparent 85%); -webkit-mask-image: radial-gradient(ellipse at 50% 45%, black 40%, transparent 85%);"></div>
 
-            <!-- Ultra-premium Three.js Canvas Container -->
-            <div id="three-network-container"
-                class="absolute inset-0 z-0 pointer-events-auto opacity-80 mix-blend-screen"
-                style="mask-image: linear-gradient(to bottom, black 50%, transparent 100%); -webkit-mask-image: linear-gradient(to bottom, black 50%, transparent 100%);">
-            </div>
+                <div class="relative z-10 space-y-6" data-aos="fade-up" data-aos-duration="700">
+                    <!-- Status -->
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-xs text-zinc-300 font-medium">
+                        <span class="status-dot-container">
+                            <span class="status-ping"></span>
+                            <span class="status-dot"></span>
+                        </span>
+                        <span>Available for Frontend Roles & Select Freelance</span>
+                    </div>
 
-            <div class="relative z-10 animate-fade-in pointer-events-none">
-                <h1 class="text-5xl md:text-7xl font-bold mb-6 tracking-tighter leading-[1.1] max-w-3xl">
-                    Architecting data at scale.
-                </h1>
-                <p class="text-lg md:text-xl text-dev-muted leading-relaxed mb-10 max-w-2xl font-light">
-                    Senior Full-Stack Engineer with 6+ years of experience. Specializing in high-performance data
-                    visualizations, distributed systems, and complex enterprise dashboards.
-                </p>
+                    <!-- Intro Heading -->
+                    <h1 class="text-3xl sm:text-5xl font-semibold tracking-tight text-white max-w-2xl leading-[1.2]" data-aos="fade-up" data-aos-delay="100">
+                        Frontend UI developer building clean, accessible web applications.
+                    </h1>
 
-                <div class="flex gap-8 items-center pointer-events-auto">
-                    <a href="#dev-projects"
-                        class="group flex items-center text-sm font-medium text-white hover:text-gray-300 transition-colors border-b border-white/20 pb-1 hover:border-white">
-                        Explore Architecture
-                    </a>
-                    <a href="mailto:hello@nishand.com"
-                        class="group flex items-center text-sm text-dev-muted hover:text-white transition-colors">
-                        hello@nishand.com
-                    </a>
+                    <!-- Bio Summary -->
+                    <p class="text-base sm:text-lg text-zinc-400 max-w-xl font-normal leading-relaxed" data-aos="fade-up" data-aos-delay="150">
+                        Hi, I'm <strong class="text-zinc-200 font-medium">Nishand M S</strong>. With 5+ years of experience, I bridge user-interface design and frontend architecture using Angular, TypeScript, and modern CSS. Based in Kerala, India — collaborating globally.
+                    </p>
+
+                    <!-- Actions -->
+                    <div class="flex flex-wrap items-center gap-3 pt-2" data-aos="fade-up" data-aos-delay="200">
+                        <a href="#work" class="btn-primary">
+                            <span>Selected Work</span>
+                            <i class="ri-arrow-down-line text-sm"></i>
+                        </a>
+                        <a href="#contact" class="btn-secondary">
+                            <span>Get in Touch</span>
+                        </a>
+                        <a href="https://github.com/nishandms" target="_blank" rel="noopener noreferrer" class="btn-secondary" title="GitHub">
+                            <i class="ri-github-line"></i>
+                            <span>GitHub</span>
+                        </a>
+                        <a href="https://www.linkedin.com/in/nishand-m-s-116b5a1b2" target="_blank" rel="noopener noreferrer" class="btn-secondary" title="LinkedIn">
+                            <i class="ri-linkedin-line"></i>
+                            <span>LinkedIn</span>
+                        </a>
+                    </div>
                 </div>
-            </div>
-        </header>
+            </section>
 
-        <!-- Tech Stack Minimalist -->
-        <section class="py-12 border-y border-white/5 relative z-10 bg-dev-bg">
-            <div
-                class="max-w-6xl mx-auto px-6 sm:px-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-                <span class="text-xs text-dev-muted uppercase tracking-widest font-medium">Core Stack</span>
-                <div class="flex flex-wrap justify-start md:justify-end gap-x-8 gap-y-3 text-sm text-dev-muted">
-                    <span class="hover:text-white transition-colors cursor-default">Angular</span>
-                    <span class="hover:text-white transition-colors cursor-default">Node.js / Express</span>
-                    <span class="hover:text-white transition-colors cursor-default">MongoDB</span>
-                    <span class="hover:text-white transition-colors cursor-default">D3.js / WebGL</span>
-                    <span class="hover:text-white transition-colors cursor-default">TypeScript</span>
+            <!-- Selected Works Section -->
+            <section id="work" class="space-y-10">
+                <div class="flex items-baseline justify-between border-b border-zinc-800 pb-4" data-aos="fade-up">
+                    <h2 class="text-xl font-semibold text-white tracking-tight">Selected Work</h2>
+                    <span class="text-xs text-zinc-500 font-mono">Case Studies</span>
                 </div>
-            </div>
-        </section>
 
-        <!-- Senior Projects Section -->
-        <section id="dev-projects" class="py-32 max-w-6xl mx-auto px-6 sm:px-8 relative z-10 bg-dev-bg">
-            <h2 class="text-3xl font-bold mb-16 tracking-tight">Selected Engineering Works</h2>
+                <div class="space-y-8">
 
-            <div class="flex flex-col border-t border-white/10">
-
-                <!-- Project 1: Enterprise Data Dashboard (Replacing OmniMetrics) -->
-                <div class="border-b border-white/10 group project-row">
-                    <button onclick="toggleCaseStudy(this)" class="w-full text-left py-10 focus:outline-none">
-                        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-                            <div class="md:col-span-4">
-                                <h3 class="text-2xl font-semibold tracking-tight text-white">DataFlow Engine</h3>
-                                <p class="text-dev-muted mt-2 text-sm font-light">High-Throughput Rendering Pipeline</p>
+                    <!-- Project 1: IDAM Homestays -->
+                    <article class="project-card" data-aos="fade-up" data-aos-duration="700">
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-0">
+                            <div class="md:col-span-7 overflow-hidden bg-zinc-950 border-b md:border-b-0 md:border-r border-zinc-800">
+                                <img src="images/projects/idam-homestay.jpg" alt="IDAM Homestays Website" class="w-full h-64 sm:h-80 object-cover object-top">
                             </div>
-                            <div
-                                class="md:col-span-5 text-dev-muted text-sm font-light hidden md:block leading-relaxed">
-                                Architecture for rendering massive live data streams without blocking the main browser
-                                thread.
-                            </div>
-                            <div class="md:col-span-3 flex justify-between md:justify-end items-center gap-8 text-sm">
-                                <div class="flex gap-4 text-dev-muted">
-                                    <span>Angular</span>
-                                    <span>D3.js</span>
-                                </div>
-                                <span
-                                    class="project-arrow text-dev-muted text-lg transition-transform duration-300">→</span>
-                            </div>
-                        </div>
-                    </button>
-
-                    <!-- Senior Case Study Content -->
-                    <div class="case-study-wrapper">
-                        <div class="case-study-inner">
-                            <div class="pt-4 pb-12 grid grid-cols-1 md:grid-cols-12 gap-12">
-                                <div class="md:col-span-8 pr-0 md:pr-12">
-                                    <h4 class="text-sm font-medium text-white mb-3">Architectural Challenge</h4>
-                                    <p class="text-sm text-dev-muted leading-relaxed font-light mb-8">
-                                        Standard DOM-based charting libraries collapse when visualizing 100,000+ nodes
-                                        in real-time. The objective was to build a highly optimized visualization engine
-                                        that could process WebSocket data streams and render force-directed graphs while
-                                        maintaining a strict 60fps standard for UI responsiveness.
+                            <div class="md:col-span-5 p-6 sm:p-8 flex flex-col justify-between space-y-6">
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between text-xs font-mono text-zinc-500">
+                                        <span>Client Project</span>
+                                        <span>2024</span>
+                                    </div>
+                                    <h3 class="text-xl font-semibold text-white">IDAM Homestays</h3>
+                                    <p class="text-sm text-zinc-400 leading-relaxed">
+                                        A mobile-first direct booking website for a boutique homestay in Kerala. Designed to eliminate high OTA commissions with an intuitive guest experience and direct booking funnel.
                                     </p>
-                                    <h4 class="text-sm font-medium text-white mb-3">Implementation & Impact</h4>
-                                    <p class="text-sm text-dev-muted leading-relaxed font-light">
-                                        Architected a hybrid rendering pipeline. Leveraged Angular for state management
-                                        and UI component structure, while completely bypassing the DOM for
-                                        visualization. Used D3.js strictly for layout math and physics, and offloaded
-                                        the actual drawing layer to an HTML5 Canvas context. Implemented Web Workers for
-                                        data decimation, ensuring the main thread remained unblocked during
-                                        high-throughput data spikes.
-                                    </p>
+                                    <div class="flex flex-wrap gap-1.5 pt-2">
+                                        <span class="text-xs font-mono px-2 py-0.5 rounded bg-zinc-900 text-zinc-400 border border-zinc-800">Tailwind CSS</span>
+                                        <span class="text-xs font-mono px-2 py-0.5 rounded bg-zinc-900 text-zinc-400 border border-zinc-800">JavaScript</span>
+                                        <span class="text-xs font-mono px-2 py-0.5 rounded bg-zinc-900 text-zinc-400 border border-zinc-800">Responsive UX</span>
+                                    </div>
                                 </div>
-                                <div class="md:col-span-4 border-l border-white/10 pl-0 md:pl-8 mt-8 md:mt-0">
-                                    <h4 class="text-xs text-dev-muted uppercase tracking-widest font-medium mb-6">
-                                        Technical Specs</h4>
-                                    <ul class="space-y-4">
-                                        <li
-                                            class="flex justify-between items-center text-sm border-b border-white/5 pb-2">
-                                            <span class="text-dev-muted">Rendering</span>
-                                            <span class="text-white">Canvas / WebGL</span>
-                                        </li>
-                                        <li
-                                            class="flex justify-between items-center text-sm border-b border-white/5 pb-2">
-                                            <span class="text-dev-muted">Concurrency</span>
-                                            <span class="text-white">Web Workers API</span>
-                                        </li>
-                                        <li
-                                            class="flex justify-between items-center text-sm border-b border-white/5 pb-2">
-                                            <span class="text-dev-muted">Performance</span>
-                                            <span class="text-white">O(n log n) Layout</span>
-                                        </li>
-                                    </ul>
+
+                                <div class="flex items-center gap-4 text-xs font-medium pt-4 border-t border-zinc-800/80">
+                                    <a href="https://idamhomestays.com" target="_blank" rel="noopener noreferrer" class="text-white hover:underline flex items-center gap-1">
+                                        <span>Live Site</span>
+                                        <i class="ri-arrow-right-up-line"></i>
+                                    </a>
+                                    <a href="https://github.com/nishandms/idam-homestay" target="_blank" rel="noopener noreferrer" class="text-zinc-400 hover:text-white flex items-center gap-1">
+                                        <span>Source Code</span>
+                                        <i class="ri-github-line"></i>
+                                    </a>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
+                    </article>
 
-                <!-- Project 2: CloudNode -->
-                <div class="border-b border-white/10 group project-row">
-                    <button onclick="toggleCaseStudy(this)" class="w-full text-left py-10 focus:outline-none">
-                        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
-                            <div class="md:col-span-4">
-                                <h3 class="text-2xl font-semibold tracking-tight text-white">CloudNode System</h3>
-                                <p class="text-dev-muted mt-2 text-sm font-light">Distributed File Architecture (WIP)
-                                </p>
+                    <!-- Project 2: Talksy -->
+                    <article class="project-card" data-aos="fade-up" data-aos-duration="700">
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-0">
+                            <div class="md:col-span-7 overflow-hidden bg-zinc-950 border-b md:border-b-0 md:border-r border-zinc-800">
+                                <img src="images/projects/talksy.png" alt="Talksy Chat Platform" class="w-full h-64 sm:h-80 object-cover object-top">
                             </div>
-                            <div
-                                class="md:col-span-5 text-dev-muted text-sm font-light hidden md:block leading-relaxed">
-                                A self-hosted, scalable file storage backend optimized for multi-gigabyte chunking.
-                            </div>
-                            <div class="md:col-span-3 flex justify-between md:justify-end items-center gap-8 text-sm">
-                                <div class="flex gap-4 text-dev-muted">
-                                    <span>Node.js</span>
-                                    <span>MongoDB</span>
+                            <div class="md:col-span-5 p-6 sm:p-8 flex flex-col justify-between space-y-6">
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between text-xs font-mono text-zinc-500">
+                                        <span>Web Application</span>
+                                        <span>Full-Stack</span>
+                                    </div>
+                                    <h3 class="text-xl font-semibold text-white">Talksy — Real-Time Chat</h3>
+                                    <p class="text-sm text-zinc-400 leading-relaxed">
+                                        Low-latency collaborative chat platform with multi-room messaging, persistent chat history, optimistic UI updates, and responsive mobile navigation.
+                                    </p>
+                                    <div class="flex flex-wrap gap-1.5 pt-2">
+                                        <span class="text-xs font-mono px-2 py-0.5 rounded bg-zinc-900 text-zinc-400 border border-zinc-800">Node.js</span>
+                                        <span class="text-xs font-mono px-2 py-0.5 rounded bg-zinc-900 text-zinc-400 border border-zinc-800">Express</span>
+                                        <span class="text-xs font-mono px-2 py-0.5 rounded bg-zinc-900 text-zinc-400 border border-zinc-800">MongoDB</span>
+                                        <span class="text-xs font-mono px-2 py-0.5 rounded bg-zinc-900 text-zinc-400 border border-zinc-800">WebSockets</span>
+                                    </div>
                                 </div>
-                                <span
-                                    class="project-arrow text-dev-muted text-lg transition-transform duration-300">→</span>
-                            </div>
-                        </div>
-                    </button>
 
-                    <div class="case-study-wrapper">
-                        <div class="case-study-inner">
-                            <div class="pt-4 pb-12 grid grid-cols-1 md:grid-cols-12 gap-12">
-                                <div class="md:col-span-8 pr-0 md:pr-12">
-                                    <h4 class="text-sm font-medium text-white mb-3">Architectural Challenge</h4>
-                                    <p class="text-sm text-dev-muted leading-relaxed font-light mb-8">
-                                        Designing an alternative to mainstream cloud storage providers by building a
-                                        highly secure, local-first file storage system. The primary engineering
-                                        bottleneck is handling the memory overhead of concurrent, multi-gigabyte file
-                                        uploads and downloads.
-                                    </p>
-                                    <h4 class="text-sm font-medium text-white mb-3">Current Implementation</h4>
-                                    <p class="text-sm text-dev-muted leading-relaxed font-light">
-                                        Developing a robust Node.js/Express REST API utilizing Streams to prevent memory
-                                        leaks during large transfers. Configuring MongoDB GridFS for optimal binary
-                                        chunking and rapid retrieval. The front-end uses vanilla HTML/JS to ensure an
-                                        absolutely minimal footprint, utilizing the Fetch API for multi-threaded upload
-                                        chunks.
-                                    </p>
-                                </div>
-                                <div class="md:col-span-4 border-l border-white/10 pl-0 md:pl-8 mt-8 md:mt-0">
-                                    <h4 class="text-xs text-dev-muted uppercase tracking-widest font-medium mb-6">
-                                        Technical Specs</h4>
-                                    <ul class="space-y-4">
-                                        <li
-                                            class="flex justify-between items-center text-sm border-b border-white/5 pb-2">
-                                            <span class="text-dev-muted">Backend</span>
-                                            <span class="text-white">Node.js Streams</span>
-                                        </li>
-                                        <li
-                                            class="flex justify-between items-center text-sm border-b border-white/5 pb-2">
-                                            <span class="text-dev-muted">Database</span>
-                                            <span class="text-white">Mongo GridFS</span>
-                                        </li>
-                                        <li
-                                            class="flex justify-between items-center text-sm border-b border-white/5 pb-2">
-                                            <span class="text-dev-muted">Status</span>
-                                            <span class="text-white">In Development</span>
-                                        </li>
-                                    </ul>
+                                <div class="flex items-center gap-4 text-xs font-medium pt-4 border-t border-zinc-800/80">
+                                    <a href="https://talksy-wwle.onrender.com/" target="_blank" rel="noopener noreferrer" class="text-white hover:underline flex items-center gap-1">
+                                        <span>Live Demo</span>
+                                        <i class="ri-arrow-right-up-line"></i>
+                                    </a>
+                                    <a href="https://github.com/nishandms/Talksy-chatapp" target="_blank" rel="noopener noreferrer" class="text-zinc-400 hover:text-white flex items-center gap-1">
+                                        <span>Source Code</span>
+                                        <i class="ri-github-line"></i>
+                                    </a>
                                 </div>
                             </div>
                         </div>
+                    </article>
+
+                    <!-- Project 3: Nexus UI Design System -->
+                    <article class="project-card" data-aos="fade-up" data-aos-duration="700">
+                        <div class="grid grid-cols-1 md:grid-cols-12 gap-0">
+                            <div class="md:col-span-7 overflow-hidden bg-zinc-950 border-b md:border-b-0 md:border-r border-zinc-800">
+                                <img src="images/projects/nexus-ui.jpg" alt="Design System Architecture" class="w-full h-64 sm:h-80 object-cover object-top">
+                            </div>
+                            <div class="md:col-span-5 p-6 sm:p-8 flex flex-col justify-between space-y-6">
+                                <div class="space-y-3">
+                                    <div class="flex items-center justify-between text-xs font-mono text-zinc-500">
+                                        <span>Design Engineering</span>
+                                        <span>Component Kit</span>
+                                    </div>
+                                    <h3 class="text-xl font-semibold text-white">Design System & Architecture</h3>
+                                    <p class="text-sm text-zinc-400 leading-relaxed">
+                                        Enterprise component library bridging Figma tokens with production Angular & Tailwind components. Built with strict WCAG AAA contrast, keyboard navigation, and theme tokens.
+                                    </p>
+                                    <div class="flex flex-wrap gap-1.5 pt-2">
+                                        <span class="text-xs font-mono px-2 py-0.5 rounded bg-zinc-900 text-zinc-400 border border-zinc-800">Angular</span>
+                                        <span class="text-xs font-mono px-2 py-0.5 rounded bg-zinc-900 text-zinc-400 border border-zinc-800">TypeScript</span>
+                                        <span class="text-xs font-mono px-2 py-0.5 rounded bg-zinc-900 text-zinc-400 border border-zinc-800">Tailwind</span>
+                                        <span class="text-xs font-mono px-2 py-0.5 rounded bg-zinc-900 text-zinc-400 border border-zinc-800">WCAG AAA</span>
+                                    </div>
+                                </div>
+
+                                <div class="flex items-center gap-4 text-xs font-medium pt-4 border-t border-zinc-800/80">
+                                    <a href="https://github.com/nishandms" target="_blank" rel="noopener noreferrer" class="text-white hover:underline flex items-center gap-1">
+                                        <span>Explore on GitHub</span>
+                                        <i class="ri-arrow-right-up-line"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
+            </section>
+
+            <!-- Freelance & Client Services Section -->
+            <section id="services" class="space-y-10">
+                <div class="flex items-baseline justify-between border-b border-zinc-800 pb-4" data-aos="fade-up">
+                    <h2 class="text-xl font-semibold text-white tracking-tight">Freelance & Client Services</h2>
+                    <span class="text-xs text-zinc-500 font-mono">Capabilities</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="minimal-card p-6 space-y-3" data-aos="fade-up" data-aos-delay="50">
+                        <div class="w-8 h-8 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-300 text-sm">
+                            <i class="ri-code-box-line"></i>
+                        </div>
+                        <h3 class="text-base font-semibold text-white">Custom Web Applications</h3>
+                        <p class="text-sm text-zinc-400 leading-relaxed">
+                            End-to-end frontend engineering using Angular or modern JavaScript. Modular architectures, clean state management, and reliable REST API integration.
+                        </p>
+                    </div>
+
+                    <div class="minimal-card p-6 space-y-3" data-aos="fade-up" data-aos-delay="100">
+                        <div class="w-8 h-8 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-300 text-sm">
+                            <i class="ri-layout-line"></i>
+                        </div>
+                        <h3 class="text-base font-semibold text-white">High-Converting Websites</h3>
+                        <p class="text-sm text-zinc-400 leading-relaxed">
+                            Fast, responsive websites tailored for direct customer conversion. Sub-second load times, clean typographic hierarchy, and mobile optimization.
+                        </p>
+                    </div>
+
+                    <div class="minimal-card p-6 space-y-3" data-aos="fade-up" data-aos-delay="150">
+                        <div class="w-8 h-8 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-300 text-sm">
+                            <i class="ri-palette-line"></i>
+                        </div>
+                        <h3 class="text-base font-semibold text-white">UI/UX Modernization</h3>
+                        <p class="text-sm text-zinc-400 leading-relaxed">
+                            Refactoring dated or fragmented web interfaces into cohesive, modern products. Translating Figma designs into accessible, pixel-perfect code.
+                        </p>
                     </div>
                 </div>
 
+                <!-- How I Work -->
+                <div class="p-6 rounded-xl bg-zinc-900/60 border border-zinc-800/80 space-y-4" data-aos="fade-up">
+                    <h4 class="text-sm font-semibold text-white uppercase tracking-wider font-mono text-xs text-zinc-400">Collaboration Model</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs text-zinc-400">
+                        <div>
+                            <strong class="text-zinc-200 block mb-1">1. Scope & Plan</strong>
+                            Clear requirements, transparent timeline, and defined milestones upfront.
+                        </div>
+                        <div>
+                            <strong class="text-zinc-200 block mb-1">2. Build & Review</strong>
+                            Iterative development with clean code reviews and preview deployments.
+                        </div>
+                        <div>
+                            <strong class="text-zinc-200 block mb-1">3. Ship & Support</strong>
+                            Production launch, performance audit, and post-delivery warranty.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Technical Stack Section -->
+            <section id="stack" class="space-y-8" data-aos="fade-up">
+                <div class="flex items-baseline justify-between border-b border-zinc-800 pb-4">
+                    <h2 class="text-xl font-semibold text-white tracking-tight">Core Stack</h2>
+                    <span class="text-xs text-zinc-500 font-mono">Technologies</span>
+                </div>
+
+                <div class="flex flex-wrap gap-2.5">
+                    <span class="skill-pill">
+                        <img src="./images/skill/angular.png" alt="Angular">
+                        <span>Angular</span>
+                    </span>
+                    <span class="skill-pill">
+                        <img src="./images/skill/typescript.png" alt="TypeScript">
+                        <span>TypeScript</span>
+                    </span>
+                    <span class="skill-pill">
+                        <img src="./images/skill/javascript.png" alt="JavaScript">
+                        <span>JavaScript (ES6+)</span>
+                    </span>
+                    <span class="skill-pill">
+                        <img src="./images/skill/tailwindcss.png" alt="Tailwind CSS">
+                        <span>Tailwind CSS</span>
+                    </span>
+                    <span class="skill-pill">
+                        <img src="./images/skill/nodejs.png" alt="Node.js">
+                        <span>Node.js</span>
+                    </span>
+                    <span class="skill-pill">
+                        <img src="./images/skill/express-js.png" alt="Express">
+                        <span>Express.js</span>
+                    </span>
+                    <span class="skill-pill">
+                        <img src="./images/skill/mongodb.png" alt="MongoDB">
+                        <span>MongoDB</span>
+                    </span>
+                    <span class="skill-pill">
+                        <img src="./images/skill/mysql-logo.png" alt="MySQL">
+                        <span>MySQL</span>
+                    </span>
+                    <span class="skill-pill">
+                        <img src="./images/skill/html-5.png" alt="HTML5">
+                        <span>HTML5 Semantic</span>
+                    </span>
+                    <span class="skill-pill">
+                        <img src="./images/skill/css3.png" alt="CSS3">
+                        <span>CSS3 / Animations</span>
+                    </span>
+                    <span class="skill-pill">
+                        <img src="./images/skill/react-native.png" alt="React Native">
+                        <span>React Native</span>
+                    </span>
+                    <span class="skill-pill">
+                        <img src="./images/skill/git.png" alt="Git">
+                        <span>Git & GitHub</span>
+                    </span>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section id="about" class="space-y-8" data-aos="fade-up">
+                <div class="flex items-baseline justify-between border-b border-zinc-800 pb-4">
+                    <h2 class="text-xl font-semibold text-white tracking-tight">About</h2>
+                    <span class="text-xs text-zinc-500 font-mono">Background</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+                    <div class="md:col-span-4" data-aos="fade-up" data-aos-delay="100">
+                        <div class="rounded-xl overflow-hidden border border-zinc-800 bg-zinc-900 max-w-xs">
+                            <img src="images/nishandms.jpg" alt="Nishand M S" class="w-full h-72 object-cover object-center">
+                            <div class="p-3 bg-zinc-900/90 text-xs text-zinc-400 font-mono">
+                                Nishand M S • Kerala, India
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-8 space-y-4 text-sm text-zinc-400 leading-relaxed font-normal" data-aos="fade-up" data-aos-delay="150">
+                        <p>
+                            I have spent the past five years crafting digital interfaces that look refined and function seamlessly. My focus is on writing clean, maintainable frontend architectures that scale effortlessly without needless overhead.
+                        </p>
+                        <p>
+                            Rather than relying on generic templates, I take pride in understanding the problem space — whether it is building a bespoke direct-booking platform for <strong class="text-zinc-200">IDAM Homestays</strong> or architecting a real-time messaging pipeline for <strong class="text-zinc-200">Talksy</strong>.
+                        </p>
+                        <p>
+                            Outside of active client projects and engineering, I continuously explore interaction design patterns, design tokens, and web performance optimization.
+                        </p>
+
+                        <div class="pt-4 flex flex-wrap gap-4 text-xs font-mono text-zinc-400">
+                            <span>• Location: Kollam, Kerala, India</span>
+                            <span>• Work Mode: Remote (Global)</span>
+                            <span>• Available: Full-Time & Freelance</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Section -->
+            <section id="contact" class="space-y-8" data-aos="fade-up">
+                <div class="flex items-baseline justify-between border-b border-zinc-800 pb-4">
+                    <h2 class="text-xl font-semibold text-white tracking-tight">Get in Touch</h2>
+                    <span class="text-xs text-zinc-500 font-mono">Contact</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+                    <div class="md:col-span-5 space-y-4" data-aos="fade-up" data-aos-delay="50">
+                        <p class="text-sm text-zinc-400 leading-relaxed">
+                            Interested in working together or discussing an engineering role? Feel free to send an email or reach out via WhatsApp. I typically reply within 24 hours.
+                        </p>
+
+                        <div class="space-y-2.5 pt-2 text-xs font-mono">
+                            <div class="flex items-center gap-2">
+                                <span class="text-zinc-500 w-20">Email:</span>
+                                <a href="mailto:nishandms06@gmail.com" class="text-zinc-200 hover:text-white underline">nishandms06@gmail.com</a>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-zinc-500 w-20">WhatsApp:</span>
+                                <a href="https://wa.me/917907162221?text=Hi%20Nishand,%20I%20saw%20your%20portfolio" target="_blank" rel="noopener noreferrer" class="text-zinc-200 hover:text-white underline">+91 7907162221</a>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-zinc-500 w-20">LinkedIn:</span>
+                                <a href="https://www.linkedin.com/in/nishand-m-s-116b5a1b2" target="_blank" rel="noopener noreferrer" class="text-zinc-200 hover:text-white underline">nishand-m-s</a>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <span class="text-zinc-500 w-20">GitHub:</span>
+                                <a href="https://github.com/nishandms" target="_blank" rel="noopener noreferrer" class="text-zinc-200 hover:text-white underline">nishandms</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-7" data-aos="fade-up" data-aos-delay="100">
+                        <form id="contact-form" class="minimal-card p-6 space-y-4">
+                            <div>
+                                <label for="form-name" class="block text-xs font-mono text-zinc-400 mb-1.5">Name</label>
+                                <input type="text" id="form-name" required placeholder="Your name" class="w-full px-3.5 py-2.5 rounded-md bg-zinc-900 border border-zinc-800 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-zinc-600 transition-colors">
+                            </div>
+
+                            <div>
+                                <label for="form-email" class="block text-xs font-mono text-zinc-400 mb-1.5">Email</label>
+                                <input type="email" id="form-email" required placeholder="name@company.com" class="w-full px-3.5 py-2.5 rounded-md bg-zinc-900 border border-zinc-800 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-zinc-600 transition-colors">
+                            </div>
+
+                            <div>
+                                <label for="form-message" class="block text-xs font-mono text-zinc-400 mb-1.5">Message / Project Brief</label>
+                                <textarea id="form-message" rows="4" required placeholder="Tell me about your project, timeline, or open role..." class="w-full px-3.5 py-2.5 rounded-md bg-zinc-900 border border-zinc-800 text-sm text-white placeholder-zinc-500 focus:outline-none focus:border-zinc-600 transition-colors"></textarea>
+                            </div>
+
+                            <button type="submit" class="btn-primary w-full justify-center">
+                                <span>Send Message</span>
+                                <i class="ri-arrow-right-line"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-zinc-800/80 py-8 text-xs text-zinc-500 font-mono">
+        <div class="container-narrow flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+                © 2026 Nishand M S. Built with care.
             </div>
-
-            <div class="mt-32 pb-12">
-                <h2 class="text-3xl font-bold mb-6 tracking-tight">Let's build something.</h2>
-                <a href="mailto:hello@nishand.com"
-                    class="inline-block text-xl md:text-2xl font-light text-dev-muted hover:text-white transition-colors border-b border-transparent hover:border-white pb-1">
-                    hello@nishand.com
-                </a>
+            <div class="flex items-center gap-4">
+                <a href="https://github.com/nishandms" target="_blank" rel="noopener noreferrer" class="hover-link">GitHub</a>
+                <a href="https://www.linkedin.com/in/nishand-m-s-116b5a1b2" target="_blank" rel="noopener noreferrer" class="hover-link">LinkedIn</a>
+                <a href="#top" class="hover-link">Top ↑</a>
             </div>
-        </section>
-    </div>
+        </div>
+    </footer>
 
-    <!-- ================= PHOTOGRAPHER VIEW ================= -->
-    <div id="view-photo" class="view-section min-h-screen bg-photo-bg text-photo-text pt-20">
-
-        <!-- Photo Hero -->
-        <header class="pt-24 pb-16 px-6 sm:px-8 max-w-[1400px] mx-auto text-center">
-            <h1 class="text-5xl md:text-7xl font-serif font-bold mb-6 tracking-tight text-neutral-900">
-                Visual <span class="italic font-light text-neutral-500">Storytelling</span>
-            </h1>
-            <p class="text-lg md:text-xl text-neutral-600 max-w-2xl mx-auto mb-12 font-light">
-                Documenting light, emotion, and spaces. Available globally for commercial and editorial assignments.
-            </p>
-
-            <!-- Photo Filters -->
-            <div class="flex flex-wrap justify-center gap-3" id="photo-filters">
-                <button class="filter-btn bg-neutral-900 text-white px-6 py-2 rounded-full text-sm transition-all"
-                    data-filter="all">All Works</button>
-                <button
-                    class="filter-btn bg-transparent border border-neutral-300 text-neutral-600 hover:border-neutral-900 px-6 py-2 rounded-full text-sm transition-all"
-                    data-filter="portrait">Portraits</button>
-                <button
-                    class="filter-btn bg-transparent border border-neutral-300 text-neutral-600 hover:border-neutral-900 px-6 py-2 rounded-full text-sm transition-all"
-                    data-filter="landscape">Landscapes</button>
-                <button
-                    class="filter-btn bg-transparent border border-neutral-300 text-neutral-600 hover:border-neutral-900 px-6 py-2 rounded-full text-sm transition-all"
-                    data-filter="street">Street</button>
-            </div>
-        </header>
-
-        <!-- Photo Grid -->
-        <section class="pb-24 px-6 sm:px-8 max-w-[1400px] mx-auto">
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 auto-rows-[350px]" id="photo-grid">
-
-                <div
-                    class="portfolio-item relative overflow-hidden row-span-2 portrait all group bg-neutral-200 rounded-sm">
-                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                        alt="Portrait"
-                        class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-1000">
-                    <div
-                        class="overlay absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-8">
-                        <span class="text-white/80 text-xs tracking-widest uppercase mb-2 font-medium">Editorial</span>
-                        <h4 class="text-white text-2xl font-serif">Studio Sessions</h4>
-                    </div>
-                </div>
-
-                <div class="portfolio-item relative overflow-hidden landscape all group bg-neutral-200 rounded-sm">
-                    <img src="https://images.unsplash.com/photo-1469474968028-56623f02e42e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                        alt="Landscape"
-                        class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-1000">
-                    <div
-                        class="overlay absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-8">
-                        <span class="text-white/80 text-xs tracking-widest uppercase mb-2 font-medium">Nature</span>
-                        <h4 class="text-white text-2xl font-serif">Nordic Peaks</h4>
-                    </div>
-                </div>
-
-                <div class="portfolio-item relative overflow-hidden street all group bg-neutral-200 rounded-sm">
-                    <img src="https://images.unsplash.com/photo-1449824913935-59a10b8d2000?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                        alt="Street"
-                        class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-1000">
-                    <div
-                        class="overlay absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-8">
-                        <span class="text-white/80 text-xs tracking-widest uppercase mb-2 font-medium">Urban</span>
-                        <h4 class="text-white text-2xl font-serif">City Geometry</h4>
-                    </div>
-                </div>
-
-                <div
-                    class="portfolio-item relative overflow-hidden sm:col-span-2 landscape all group bg-neutral-200 rounded-sm">
-                    <img src="https://images.unsplash.com/photo-1472214103451-9374bd1c798e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80"
-                        alt="Landscape Wide"
-                        class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-1000">
-                    <div
-                        class="overlay absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-8">
-                        <span class="text-white/80 text-xs tracking-widest uppercase mb-2 font-medium">Travel</span>
-                        <h4 class="text-white text-2xl font-serif">Morning Mist</h4>
-                    </div>
-                </div>
-
-                <div class="portfolio-item relative overflow-hidden portrait all group bg-neutral-200 rounded-sm">
-                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-                        alt="Portrait"
-                        class="object-cover w-full h-full group-hover:scale-105 transition-transform duration-1000">
-                    <div
-                        class="overlay absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex flex-col justify-end p-8">
-                        <span class="text-white/80 text-xs tracking-widest uppercase mb-2 font-medium">Commercial</span>
-                        <h4 class="text-white text-2xl font-serif">Apparel FW26</h4>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-32 text-center pb-12">
-                <h3 class="text-2xl font-serif mb-6">Inquiries & Bookings</h3>
-                <a href="mailto:hello@nishand.com"
-                    class="inline-flex items-center text-neutral-900 hover:text-neutral-500 transition-colors uppercase tracking-widest text-sm font-medium border-b border-neutral-900 pb-1">
-                    hello@nishand.com
-                </a>
-            </div>
-        </section>
-    </div>
-
+    <!-- Scripts -->
+    <script src="./libs/js/aos/aos.js"></script>
+    <script src="script.js"></script>
 </body>
 
 </html>

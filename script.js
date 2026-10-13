@@ -1,328 +1,352 @@
-tailwind.config = {
-    darkMode: 'class',
-    theme: {
-        extend: {
-            colors: {
-                dev: {
-                    bg: '#0a0a0a', // True black/dark gray for premium feel
-                    card: '#171717',
-                    accent: '#ffffff', // High contrast white instead of blue
-                    text: '#f5f5f5',
-                    muted: '#a3a3a3',
-                },
-                photo: {
-                    bg: '#fafafa',
-                    card: '#ffffff',
-                    accent: '#171717',
-                    text: '#171717',
-                    muted: '#737373',
-                }
-            },
-            fontFamily: {
-                sans: ['Inter', 'sans-serif'],
-                mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
-                serif: ['Merriweather', 'serif'],
-            },
-            animation: {
-                'fade-in': 'fadeIn 0.8s ease-out forwards',
-            },
-            keyframes: {
-                fadeIn: {
-                    '0%': { opacity: '0', transform: 'translateY(10px)' },
-                    '100%': { opacity: '1', transform: 'translateY(0)' },
-                }
-            }
-        }
-    }
-};
+/**
+ * Nishand M S — Portfolio Interaction & Animation Engine
+ * Minimal, Fast, Smooth AOS & Background Pattern Animation
+ */
 
-let currentView = 'dev';
+// Toast feedback system
+let toastTimeout = null;
+function showToast(message) {
+  const toast = document.getElementById('toast');
+  const toastText = document.getElementById('toast-text');
+  if (!toast) return;
 
-function switchView(viewId) {
-    window.scrollTo(0, 0);
+  if (toastText) toastText.textContent = message;
+  toast.classList.add('show');
 
-    const body = document.getElementById('body');
-    const navbar = document.getElementById('navbar');
-    const navLogo = document.getElementById('nav-logo');
-    const menuBtnIcon = document.getElementById('menu-icon');
-
-    document.querySelectorAll('.view-section').forEach(el => el.classList.remove('active'));
-    const targetSection = document.getElementById(`view-${viewId}`);
-    if (targetSection) {
-        targetSection.classList.add('active');
-    }
-
-    const mobileMenu = document.getElementById('mobile-menu');
-    if (mobileMenu) {
-        mobileMenu.classList.add('hidden');
-    }
-    if (menuBtnIcon) {
-        menuBtnIcon.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
-    }
-
-    if (viewId === 'dev') {
-        if (body) body.className = 'font-sans theme-dark bg-dev-bg text-dev-text transition-colors duration-500 overflow-x-hidden';
-        if (navbar) navbar.className = 'fixed w-full z-50 transition-all duration-300 bg-dev-bg/80 backdrop-blur-lg border-b border-white/5 text-white';
-        if (navLogo) navLogo.className = 'text-xl font-semibold tracking-tight text-white';
-        setupNavLinks('dev');
-    }
-    else if (viewId === 'photo') {
-        if (body) body.className = 'font-sans theme-light bg-photo-bg text-photo-text transition-colors duration-500 overflow-x-hidden';
-        if (navbar) navbar.className = 'fixed w-full z-50 transition-all duration-300 bg-white/90 backdrop-blur-lg border-b border-neutral-200 text-neutral-900';
-        if (navLogo) navLogo.className = 'text-xl font-semibold tracking-tight text-neutral-900';
-        setupNavLinks('photo');
-    }
-
-    currentView = viewId;
+  if (toastTimeout) clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => {
+    toast.classList.remove('show');
+  }, 2800);
 }
 
-function setupNavLinks(activeView) {
-    const navLinks = document.getElementById('nav-links');
-    if (!navLinks) return;
-    const devClasses = activeView === 'dev' ? 'text-white' : (activeView === 'photo' ? 'text-neutral-500 hover:text-neutral-900' : 'text-dev-muted hover:text-white');
-    const photoClasses = activeView === 'photo' ? 'text-neutral-900' : 'text-dev-muted hover:text-white';
-    navLinks.innerHTML = `
-        <button id="nav-btn-dev" onclick="switchView('dev')" class="text-sm font-medium transition-colors ${devClasses}">Software Engineering</button>
-        <button id="nav-btn-photo" onclick="switchView('photo')" class="text-sm font-medium transition-colors ${photoClasses}">Photography</button>
-    `;
+function copyEmail(email = 'nishandms06@gmail.com') {
+  navigator.clipboard.writeText(email).then(() => {
+    showToast(`Copied ${email} to clipboard`);
+  }).catch(() => {
+    showToast(`Email: ${email}`);
+  });
 }
 
-function toggleCaseStudy(button) {
-    const wrapper = button.nextElementSibling;
-    const arrow = button.querySelector('.project-arrow');
-    const isExpanded = wrapper.classList.contains('expanded');
+// Mobile navigation toggle
+function setupMobileNav() {
+  const toggleBtn = document.getElementById('mobile-nav-toggle');
+  const menu = document.getElementById('mobile-nav-menu');
+  if (!toggleBtn || !menu) return;
 
-    document.querySelectorAll('.case-study-wrapper').forEach(w => w.classList.remove('expanded'));
-    document.querySelectorAll('.project-arrow').forEach(a => a.classList.remove('expanded-arrow'));
+  toggleBtn.addEventListener('click', () => {
+    menu.classList.toggle('hidden');
+    const isExpanded = !menu.classList.contains('hidden');
+    toggleBtn.setAttribute('aria-expanded', isExpanded);
+  });
 
-    if (!isExpanded) {
-        wrapper.classList.add('expanded');
-        arrow.classList.add('expanded-arrow');
-    }
-}
-
-function setupMobileMenu() {
-    const btn = document.getElementById('mobile-menu-btn');
-    const menu = document.getElementById('mobile-menu');
-    const menuBtnIcon = document.getElementById('menu-icon');
-
-    if (!btn || !menu) return;
-
-    btn.addEventListener('click', () => {
-        menu.classList.toggle('hidden');
-        if (menu.classList.contains('hidden')) {
-            if (menuBtnIcon) menuBtnIcon.setAttribute('d', 'M4 6h16M4 12h16M4 18h16');
-        } else {
-            if (menuBtnIcon) menuBtnIcon.setAttribute('d', 'M6 18L18 6M6 6l12 12');
-            menu.className = currentView === 'dev'
-                ? 'absolute w-full bg-dev-bg/95 backdrop-blur-xl border-b border-white/10 shadow-2xl text-white z-50'
-                : 'absolute w-full bg-white/95 backdrop-blur-xl border-b border-neutral-200 shadow-2xl text-neutral-900 z-50';
-        }
+  document.querySelectorAll('.mobile-link').forEach(link => {
+    link.addEventListener('click', () => {
+      menu.classList.add('hidden');
+      toggleBtn.setAttribute('aria-expanded', 'false');
     });
+  });
 }
 
-function setupFilters() {
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const portfolioItems = document.querySelectorAll('.portfolio-item');
+// Contact form handler
+function setupContactForm() {
+  const form = document.getElementById('contact-form');
+  if (!form) return;
 
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', () => {
-            filterBtns.forEach(b => {
-                b.classList.remove('bg-neutral-900', 'text-white');
-                b.classList.add('bg-transparent', 'text-neutral-600', 'border-neutral-300');
-            });
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const name = document.getElementById('form-name')?.value || '';
+    const email = document.getElementById('form-email')?.value || '';
+    const message = document.getElementById('form-message')?.value || '';
 
-            btn.classList.add('bg-neutral-900', 'text-white');
-            btn.classList.remove('bg-transparent', 'text-neutral-600', 'border-neutral-300');
+    const subject = encodeURIComponent(`Project Inquiry from ${name}`);
+    const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`);
 
-            const filterValue = btn.getAttribute('data-filter');
+    showToast('Opening your email client...');
+    setTimeout(() => {
+      window.location.href = `mailto:nishandms06@gmail.com?subject=${subject}&body=${body}`;
+    }, 400);
+  });
+}
 
-            portfolioItems.forEach(item => {
-                if (filterValue === 'all' || item.classList.contains(filterValue)) {
-                    item.style.display = 'block';
-                    item.style.animation = 'none';
-                    item.offsetHeight;
-                    item.style.animation = null;
-                    item.classList.add('animate-fade-in');
-                } else {
-                    item.style.display = 'none';
-                }
-            });
-        });
+// Back to Top button
+function setupBackToTop() {
+  const backToTopBtn = document.getElementById('backToTop');
+  if (!backToTopBtn) return;
+
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+      backToTopBtn.classList.add('show');
+    } else {
+      backToTopBtn.classList.remove('show');
+    }
+  });
+
+  backToTopBtn.addEventListener('click', () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
     });
+  });
 }
 
-function initPremiumThreeJS() {
-    const container = document.getElementById('three-network-container');
-    if (!container || typeof THREE === 'undefined') return;
+// AOS Animation Setup
+function initAOS() {
+  if (typeof AOS !== 'undefined') {
+    AOS.init({
+      duration: 650,
+      easing: 'ease-out-cubic',
+      once: true,
+      offset: 50,
+      delay: 50
+    });
+  }
+}
 
-    if (container.querySelector('canvas')) return;
+// Minimal Background Pattern Animation (Three.js with 2D Canvas Fallback)
+function initBackgroundPattern() {
+  const container = document.getElementById('three-network-container');
+  if (!container) return;
 
-    const scene = new THREE.Scene();
-    scene.fog = new THREE.Fog(0x0a0a0a, 400, 1200);
-    const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 2000);
+  if (typeof THREE !== 'undefined') {
+    initThreeJSPattern(container);
+  } else {
+    initCanvas2DPattern(container);
+  }
+}
 
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    container.appendChild(renderer.domElement);
+function initThreeJSPattern(container) {
+  if (container.querySelector('canvas')) return;
 
-    // Refined configuration for "Senior" look: Slower, fewer nodes, extremely subtle.
-    const particleCount = 200;
-    const r = 1200;
-    const maxDistance = 180;
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.Fog(0x09090b, 300, 1100);
+  const camera = new THREE.PerspectiveCamera(60, container.clientWidth / container.clientHeight, 1, 1500);
 
-    const particles = new THREE.BufferGeometry();
-    const particlePositions = new Float32Array(particleCount * 3);
-    const particleVelocities = [];
+  const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  renderer.setSize(container.clientWidth, container.clientHeight);
+  container.appendChild(renderer.domElement);
+
+  const particleCount = 140;
+  const r = 1000;
+  const maxDistance = 150;
+
+  const particles = new THREE.BufferGeometry();
+  const particlePositions = new Float32Array(particleCount * 3);
+  const particleVelocities = [];
+
+  for (let i = 0; i < particleCount; i++) {
+    particlePositions[i * 3] = (Math.random() - 0.5) * r;
+    particlePositions[i * 3 + 1] = (Math.random() - 0.5) * r;
+    particlePositions[i * 3 + 2] = (Math.random() - 0.5) * r;
+
+    particleVelocities.push({
+      x: (Math.random() - 0.5) * 0.18,
+      y: (Math.random() - 0.5) * 0.18,
+      z: (Math.random() - 0.5) * 0.18
+    });
+  }
+
+  particles.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3).setUsage(THREE.DynamicDrawUsage));
+
+  const pMaterial = new THREE.PointsMaterial({
+    color: 0xffffff,
+    size: 2.2,
+    blending: THREE.AdditiveBlending,
+    transparent: true,
+    opacity: 0.65,
+    sizeAttenuation: true
+  });
+
+  const pointCloud = new THREE.Points(particles, pMaterial);
+  scene.add(pointCloud);
+
+  const lineGeometry = new THREE.BufferGeometry();
+  const linePositions = new Float32Array(particleCount * particleCount * 3);
+  const lineColors = new Float32Array(particleCount * particleCount * 3);
+
+  lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3).setUsage(THREE.DynamicDrawUsage));
+  lineGeometry.setAttribute('color', new THREE.BufferAttribute(lineColors, 3).setUsage(THREE.DynamicDrawUsage));
+
+  const lineMaterial = new THREE.LineBasicMaterial({
+    vertexColors: true,
+    blending: THREE.AdditiveBlending,
+    transparent: true,
+    opacity: 0.2
+  });
+
+  const linesMesh = new THREE.LineSegments(lineGeometry, lineMaterial);
+  scene.add(linesMesh);
+
+  let mouseX = 0, mouseY = 0;
+  let targetX = 0, targetY = 0;
+  const windowHalfX = window.innerWidth / 2;
+  const windowHalfY = window.innerHeight / 2;
+
+  window.addEventListener('mousemove', (event) => {
+    mouseX = (event.clientX - windowHalfX) * 0.04;
+    mouseY = (event.clientY - windowHalfY) * 0.04;
+  });
+
+  function animate() {
+    requestAnimationFrame(animate);
+
+    targetX = mouseX * 1.8;
+    targetY = mouseY * 1.8;
+    camera.position.x += (targetX - camera.position.x) * 0.02;
+    camera.position.y += (-targetY - camera.position.y) * 0.02;
+    camera.lookAt(scene.position);
+
+    let vertexpos = 0;
+    let colorpos = 0;
+    let numConnected = 0;
 
     for (let i = 0; i < particleCount; i++) {
-        particlePositions[i * 3] = (Math.random() - 0.5) * r;
-        particlePositions[i * 3 + 1] = (Math.random() - 0.5) * r;
-        particlePositions[i * 3 + 2] = (Math.random() - 0.5) * r;
+      particlePositions[i * 3] += particleVelocities[i].x;
+      particlePositions[i * 3 + 1] += particleVelocities[i].y;
+      particlePositions[i * 3 + 2] += particleVelocities[i].z;
 
-        // Extremely slow movement
-        particleVelocities.push({
-            x: (Math.random() - 0.5) * 0.2,
-            y: (Math.random() - 0.5) * 0.2,
-            z: (Math.random() - 0.5) * 0.2
-        });
+      if (particlePositions[i * 3] > r / 2) particlePositions[i * 3] = -r / 2;
+      if (particlePositions[i * 3] < -r / 2) particlePositions[i * 3] = r / 2;
+      if (particlePositions[i * 3 + 1] > r / 2) particlePositions[i * 3 + 1] = -r / 2;
+      if (particlePositions[i * 3 + 1] < -r / 2) particlePositions[i * 3 + 1] = r / 2;
+      if (particlePositions[i * 3 + 2] > r / 2) particlePositions[i * 3 + 2] = -r / 2;
+      if (particlePositions[i * 3 + 2] < -r / 2) particlePositions[i * 3 + 2] = r / 2;
+
+      for (let j = i + 1; j < particleCount; j++) {
+        const dx = particlePositions[i * 3] - particlePositions[j * 3];
+        const dy = particlePositions[i * 3 + 1] - particlePositions[j * 3 + 1];
+        const dz = particlePositions[i * 3 + 2] - particlePositions[j * 3 + 2];
+        const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+
+        if (dist < maxDistance) {
+          linePositions[vertexpos++] = particlePositions[i * 3];
+          linePositions[vertexpos++] = particlePositions[i * 3 + 1];
+          linePositions[vertexpos++] = particlePositions[i * 3 + 2];
+
+          linePositions[vertexpos++] = particlePositions[j * 3];
+          linePositions[vertexpos++] = particlePositions[j * 3 + 1];
+          linePositions[vertexpos++] = particlePositions[j * 3 + 2];
+
+          lineColors[colorpos++] = 1; lineColors[colorpos++] = 1; lineColors[colorpos++] = 1;
+          lineColors[colorpos++] = 1; lineColors[colorpos++] = 1; lineColors[colorpos++] = 1;
+
+          numConnected++;
+        }
+      }
     }
 
-    particles.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3).setUsage(THREE.DynamicDrawUsage));
+    linesMesh.geometry.setDrawRange(0, numConnected * 2);
+    linesMesh.geometry.attributes.position.needsUpdate = true;
+    linesMesh.geometry.attributes.color.needsUpdate = true;
+    pointCloud.geometry.attributes.position.needsUpdate = true;
 
-    // Pure white, tiny nodes
-    const pMaterial = new THREE.PointsMaterial({
-        color: 0xffffff,
-        size: 2.5,
-        blending: THREE.AdditiveBlending,
-        transparent: true,
-        opacity: 0.7,
-        sizeAttenuation: true
-    });
+    renderer.render(scene, camera);
+  }
 
-    const pointCloud = new THREE.Points(particles, pMaterial);
-    scene.add(pointCloud);
+  animate();
 
-    // Connecting Lines Setup
-    const lineGeometry = new THREE.BufferGeometry();
-    const linePositions = new Float32Array(particleCount * particleCount * 3);
-    const lineColors = new Float32Array(particleCount * particleCount * 3);
-
-    lineGeometry.setAttribute('position', new THREE.BufferAttribute(linePositions, 3).setUsage(THREE.DynamicDrawUsage));
-    lineGeometry.setAttribute('color', new THREE.BufferAttribute(lineColors, 3).setUsage(THREE.DynamicDrawUsage));
-
-    const lineMaterial = new THREE.LineBasicMaterial({
-        vertexColors: true,
-        blending: THREE.AdditiveBlending,
-        transparent: true,
-        opacity: 0.25
-    });
-
-    const linesMesh = new THREE.LineSegments(lineGeometry, lineMaterial);
-    scene.add(linesMesh);
-
-    // Mouse parallax tracking
-    let mouseX = 0;
-    let mouseY = 0;
-    let targetX = 0;
-    let targetY = 0;
-    const windowHalfX = window.innerWidth / 2;
-    const windowHalfY = window.innerHeight / 2;
-
-    document.addEventListener('mousemove', (event) => {
-        mouseX = (event.clientX - windowHalfX) * 0.05;
-        mouseY = (event.clientY - windowHalfY) * 0.05;
-    });
-
-    function animate() {
-        requestAnimationFrame(animate);
-
-        // Parallax Camera movement based on mouse
-        targetX = mouseX * 2;
-        targetY = mouseY * 2;
-        camera.position.x += (targetX - camera.position.x) * 0.02;
-        camera.position.y += (-targetY - camera.position.y) * 0.02;
-        camera.lookAt(scene.position);
-
-        let vertexpos = 0;
-        let colorpos = 0;
-        let numConnected = 0;
-
-        for (let i = 0; i < particleCount; i++) {
-            // Update positions based on velocity
-            particlePositions[i * 3] += particleVelocities[i].x;
-            particlePositions[i * 3 + 1] += particleVelocities[i].y;
-            particlePositions[i * 3 + 2] += particleVelocities[i].z;
-
-            // Seamless wrap-around instead of harsh bouncing
-            if (particlePositions[i * 3] > r / 2) particlePositions[i * 3] = -r / 2;
-            if (particlePositions[i * 3] < -r / 2) particlePositions[i * 3] = r / 2;
-            if (particlePositions[i * 3 + 1] > r / 2) particlePositions[i * 3 + 1] = -r / 2;
-            if (particlePositions[i * 3 + 1] < -r / 2) particlePositions[i * 3 + 1] = r / 2;
-            if (particlePositions[i * 3 + 2] > r / 2) particlePositions[i * 3 + 2] = -r / 2;
-            if (particlePositions[i * 3 + 2] < -r / 2) particlePositions[i * 3 + 2] = r / 2;
-
-            for (let j = i + 1; j < particleCount; j++) {
-                const dx = particlePositions[i * 3] - particlePositions[j * 3];
-                const dy = particlePositions[i * 3 + 1] - particlePositions[j * 3 + 1];
-                const dz = particlePositions[i * 3 + 2] - particlePositions[j * 3 + 2];
-                const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
-
-                if (dist < maxDistance) {
-                    const alpha = 1.0 - dist / maxDistance;
-
-                    linePositions[vertexpos++] = particlePositions[i * 3];
-                    linePositions[vertexpos++] = particlePositions[i * 3 + 1];
-                    linePositions[vertexpos++] = particlePositions[i * 3 + 2];
-
-                    linePositions[vertexpos++] = particlePositions[j * 3];
-                    linePositions[vertexpos++] = particlePositions[j * 3 + 1];
-                    linePositions[vertexpos++] = particlePositions[j * 3 + 2];
-
-                    // Subtle white connections fading out
-                    lineColors[colorpos++] = 1; lineColors[colorpos++] = 1; lineColors[colorpos++] = 1;
-                    lineColors[colorpos++] = 1; lineColors[colorpos++] = 1; lineColors[colorpos++] = 1;
-
-                    numConnected++;
-                }
-            }
-        }
-
-        linesMesh.geometry.setDrawRange(0, numConnected * 2);
-        linesMesh.geometry.attributes.position.needsUpdate = true;
-        linesMesh.geometry.attributes.color.needsUpdate = true;
-        pointCloud.geometry.attributes.position.needsUpdate = true;
-
-        // Strict Parallax: Global rotation removed, only relies on mouse movement
-        renderer.render(scene, camera);
+  window.addEventListener('resize', () => {
+    if (container && renderer) {
+      camera.aspect = container.clientWidth / container.clientHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(container.clientWidth, container.clientHeight);
     }
+  });
+}
 
-    animate();
+function initCanvas2DPattern(container) {
+  if (container.querySelector('canvas')) return;
+  const canvas = document.createElement('canvas');
+  container.appendChild(canvas);
+  const ctx = canvas.getContext('2d');
+  let width, height;
 
-    window.addEventListener('resize', () => {
-        if (currentView === 'dev' && container) {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        }
+  function resize() {
+    width = canvas.width = container.clientWidth;
+    height = canvas.height = container.clientHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const particles = [];
+  const count = 55;
+  for (let i = 0; i < count; i++) {
+    particles.push({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.3,
+      radius: Math.random() * 1.5 + 0.5
     });
+  }
+
+  let mouseX = -1000, mouseY = -1000;
+  window.addEventListener('mousemove', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    mouseX = e.clientX - rect.left;
+    mouseY = e.clientY - rect.top;
+  });
+
+  function draw() {
+    ctx.clearRect(0, 0, width, height);
+    for (let i = 0; i < particles.length; i++) {
+      const p = particles[i];
+      p.x += p.vx;
+      p.y += p.vy;
+      if (p.x < 0) p.x = width;
+      if (p.x > width) p.x = 0;
+      if (p.y < 0) p.y = height;
+      if (p.y > height) p.y = 0;
+
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+      ctx.fill();
+
+      for (let j = i + 1; j < particles.length; j++) {
+        const p2 = particles[j];
+        const dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+        if (dist < 120) {
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.strokeStyle = `rgba(255, 255, 255, ${0.1 * (1 - dist / 120)})`;
+          ctx.lineWidth = 0.6;
+          ctx.stroke();
+        }
+      }
+
+      const mDist = Math.hypot(p.x - mouseX, p.y - mouseY);
+      if (mDist < 140) {
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(mouseX, mouseY);
+        ctx.strokeStyle = `rgba(56, 189, 248, ${0.2 * (1 - mDist / 140)})`;
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
 }
 
-// Expose globally for inline HTML event handlers
-window.switchView = switchView;
-window.toggleCaseStudy = toggleCaseStudy;
+// Initialize everything on DOMContentLoaded
+document.addEventListener('DOMContentLoaded', () => {
+  initAOS();
+  initBackgroundPattern();
+  setupMobileNav();
+  setupContactForm();
+  setupBackToTop();
+});
 
-function init() {
-    setupMobileMenu();
-    setupFilters();
-    switchView('dev');
-    setTimeout(initPremiumThreeJS, 100);
-}
+// Refresh AOS on window load
+window.addEventListener('load', () => {
+  if (typeof AOS !== 'undefined') {
+    AOS.refresh();
+  }
+});
 
-// Initialize application
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-} else {
-    init();
-}
+// Expose globally
+window.copyEmail = copyEmail;
+window.showToast = showToast;
